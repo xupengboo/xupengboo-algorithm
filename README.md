@@ -98,7 +98,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
 
 ## 📜 许可证
 
-本项目采用 [MIT License](https://chat.deepseek.com/a/chat/s/LICENSE)
+本项目采用 [MIT License](https://opensource.org/license/MIT)
 
 ------
 
