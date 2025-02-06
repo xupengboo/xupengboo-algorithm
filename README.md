@@ -106,7 +106,6 @@ def two_sum(nums: List[int], target: int) -> List[int]:
 
 - [LeetCode官网](https://leetcode.com/)
 - [算法可视化网站](https://visualgo.net/)
-- [复杂度速查表](https://chat.deepseek.com/a/chat/s/docs/complexity.pdf)
 
 ## 🛠 效果增强建议
 1. 添加实际截图：
