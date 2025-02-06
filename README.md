@@ -1,7 +1,7 @@
 # LeetCode Algorithm Solutions
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/leetcode/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/xupengboo/leetcode/pulls)
 
 多语言实现的LeetCode算法解析库，涵盖Python/Java/C++/Go/JavaScript等多种实现
 
