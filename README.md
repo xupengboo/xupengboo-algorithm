@@ -22,7 +22,7 @@
 
 ## 🚀 快速开始
 ```bash
-git clone https://github.com/yourusername/leetcode.git
+git clone https://github.com/xupengboo/leetcode.git
 cd leetcode/solutions/python
 # 运行示例题解测试
 python3 -m unittest 001_two_sum/test.py
