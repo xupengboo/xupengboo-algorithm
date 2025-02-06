@@ -110,9 +110,9 @@ def two_sum(nums: List[int], target: int) -> List[int]:
 
 ## 🛠 效果增强建议
 1. 添加实际截图：
-   ```markdown
-   ![解题示意图](screenshots/demo.png)
-   ```
+```markdown
+![解题示意图](screenshots/demo.png)
+```
 
 2. 增加进度追踪表：
 
