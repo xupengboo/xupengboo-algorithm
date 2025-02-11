@@ -1,9 +1,9 @@
 # Xupengboo Algorithm Solutions
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/xupengboo/leetcode/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/xupengboo/xupengboo-algorithm/pulls)
 
-多语言实现的LeetCode算法解析库，涵盖Python/Java/C++/Go/JavaScript等多种实现
+多语言实现的算法解析库，涵盖Python/Java/C++/Go/JavaScript等多种实现
 
 ## 📖 目录
 - [项目特点](#-项目特点)
@@ -22,15 +22,15 @@
 
 ## 🚀 快速开始
 ```bash
-git clone https://github.com/xupengboo/leetcode.git
-cd leetcode/solutions/python
+git clone https://github.com/xupengboo/xupengboo-algorithm.git
+cd xupengboo-algorithm/solutions/python
 # 运行示例题解测试
 python3 -m unittest 001_two_sum/test.py
 ```
 
 ## 📂 目录结构
 ```
-leetcode/
+/
 ├── solutions/               # 按语言分类的解决方案
 │   ├── python/
 │   │   └── 001_two_sum/     # 题目编号+名称
