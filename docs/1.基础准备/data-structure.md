@@ -152,17 +152,19 @@ queue.popleft()    # 出队 -> 1
 
 ## **5. 哈希表 (Hash Table)**
 
-### **定义**
+### 5.1 哈希表 概念
+
+**定义**
 
 - 通过**键(Key)直接访问值(Value)**的数据结构。
 - **核心思想**：哈希函数将键映射到存储位置。
 
-### **冲突解决**
+**冲突解决**
 
 - **开放寻址法**：冲突时寻找下一个空槽。
 - **链地址法**：每个槽存储链表（如Python的字典）。
 
-### **代码示例**
+**代码示例**
 
 ```python
 # Python字典 即哈希表实现
@@ -173,10 +175,146 @@ print(hash_map.get("apple"))  # 获取 -> 1
 del hash_map["banana"]        # 删除
 ```
 
-### **应用场景**
+**应用场景**
 
 - 快速查找（如数据库索引）
 - 统计频率（如字母异位词分组）
+
+### **5.2 链地址法（Chaining）**
+
+#### **核心思想**
+
+- 每个数组的索引位置（称为“桶”）不再直接存储单个键值对，而是存储一个**链表**（或红黑树等其他数据结构）。
+- 当多个键的哈希值冲突时，它们会被添加到同一个桶的链表中。
+
+#### **具体操作**
+
+1. **插入键值对**：
+   - 计算键的哈希值，找到对应桶。
+   - 如果桶为空，直接存入链表头节点。
+   - 如果桶不为空，遍历链表：
+     - 如果发现键已存在，更新值。
+     - 如果不存在，将新键值对添加到链表末尾（或头部）。
+2. **查找键值对**：
+   - 计算键的哈希值，找到对应桶。
+   - 遍历链表，逐个比较键是否匹配。
+
+#### **代码示例（Python简化版）**
+
+```python
+class HashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [[] for _ in range(size)]  # 每个桶是一个列表（模拟链表）
+
+    def _hash(self, key):
+        return hash(key) % self.size  # 哈希函数
+
+    def put(self, key, value):
+        bucket_idx = self._hash(key)
+        bucket = self.table[bucket_idx]
+        # 遍历链表，检查是否已存在该键
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)  # 更新键值对
+                return
+        bucket.append((key, value))  # 添加新键值对
+
+    def get(self, key):
+        bucket_idx = self._hash(key)
+        bucket = self.table[bucket_idx]
+        for k, v in bucket:
+            if k == key:
+                return v
+        return None  # 未找到
+```
+
+**为什么链地址法不会导致效率低下？**
+
+虽然链表需要遍历，但哈希表的设计目标是通过以下两点保证高效性：
+
+**(1) 哈希函数的均匀性**
+
+- 好的哈希函数会将键**均匀分布**到各个桶中，避免大量冲突。
+- 例如，Python的哈希函数对字符串、整数等类型有优化，冲突概率极低。
+
+**(2) 负载因子（Load Factor）控制**
+
+- **负载因子** = 哈希表中元素数量 / 桶的数量。
+- 当负载因子超过阈值（如0.75），哈希表会触发**扩容（Rehashing）**：
+  - 创建一个更大的桶数组（例如翻倍）。
+  - 将所有键值对重新哈希到新桶中。
+- 扩容后，冲突概率显著降低，链表长度保持较短（通常为0-2个节点）。
+
+现代哈希表（如Java的`HashMap`）会进一步优化链地址法：
+
+- **链表转红黑树（Java）**：当链表长度超过阈值（如8），将链表转换为红黑树，将查找时间从`O(n)`优化为`O(log n)`。
+- **动态扩容策略**：根据负载因子智能调整桶的数量，平衡时间和空间。
+
+### 5.3 开放地址法（Open Addressing）
+
+#### **核心思想**
+
+开放地址法的思想是，当发生冲突时，**寻找另一个空的数组位置**来存储冲突的元素。常见的解决方法有**线性探测法**、**二次探测法**和**双重哈希法**等。
+
+#### **具体实现**
+
+- **插入**：当插入新元素时，计算哈希值，如果该位置已经被占用，就按照预定的探测策略（如线性探测）尝试查找下一个空的位置。
+- **查找**：查找时，先计算哈希值，如果当前位置的元素就是我们要查找的键，就直接返回值。如果当前位置不匹配，就根据探测策略继续查找其他位置，直到找到目标或确认该键不存在。
+
+#### **代码示例**
+
+```python
+class HashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [None] * self.size  # 每个桶直接存储键值对或标记
+
+    def _hash(self, key):
+        return hash(key) % self.size
+
+    def _probe(self, start_idx):
+        """线性探测下一个可用位置"""
+        idx = start_idx
+        while True:
+            if self.table[idx] is None or self.table[idx] == "DELETED":
+                return idx
+            idx = (idx + 1) % self.size  # 回绕到数组开头
+            if idx == start_idx:  # 整个表已满
+                raise Exception("Hash table is full")
+
+    def put(self, key, value):
+        start_idx = self._hash(key)
+        idx = start_idx
+
+        # 查找可插入的位置或更新现有键
+        while True:
+            if self.table[idx] is None or self.table[idx] == "DELETED":
+                # 插入新键值对
+                self.table[idx] = (key, value)
+                return
+            elif self.table[idx][0] == key:
+                # 键已存在，更新值
+                self.table[idx] = (key, value)
+                return
+            idx = (idx + 1) % self.size # 通过取余方式能够遍历整个数组
+            if idx == start_idx:
+                raise Exception("Hash table is full")
+
+    def get(self, key):
+        start_idx = self._hash(key)
+        idx = start_idx
+
+        while True:
+            entry = self.table[idx]
+            if entry is None:
+                return None  # 未找到
+            elif entry != "DELETED" and entry[0] == key:
+                return entry[1]  # 返回找到的值
+            idx = (idx + 1) % self.size
+            if idx == start_idx:
+                return None  # 遍历完整个表未找到
+```
 
 ------
 
