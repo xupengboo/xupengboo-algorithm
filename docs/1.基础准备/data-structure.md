@@ -152,7 +152,7 @@ class Queue:
     def dequeue(self):
         if len(self.queue) == 0:
             return None
-        temp = self.queue[len(self.queue) - 1]
+        temp = self.queue[len(self.queue) - 1] # 应该改为：self.queue[-1] 最简单
         self.queue.remove(temp)
         return  temp
     
