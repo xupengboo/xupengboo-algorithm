@@ -99,7 +99,7 @@ node.next = node.next.next  # 链表恢复为1 -> 2 -> 3
 
 ### **定义**
 
-- **后进先出(LIFO)**的线性结构。
+- **后进先出**(**LIFO**)的线性结构。
 - **核心操作**：`push`（入栈）、`pop`（出栈）、`peek`（查看栈顶）。
 
 ### **代码示例**
@@ -291,7 +291,7 @@ class Queue:
 - 通过**键**（Key）直接访问**值**（Value）的数据结构。
 - **核心思想**：哈希函数将键映射到存储位置。
 
-**冲突解决**
+**哈希冲突，如何解决：**
 
 - **开放寻址法**：冲突时寻找下一个空槽。
 - **链地址法**：每个槽存储链表（如Python的字典）。
@@ -400,7 +400,7 @@ class HashTable:
 class HashTable:
     def __init__(self, size=10):
         self.size = size
-        self.table = [None] * self.size  # 每个桶直接存储键值对或标记
+        self.table = [None] * self.size  
 
     def _hash(self, key):
         return hash(key) % self.size
