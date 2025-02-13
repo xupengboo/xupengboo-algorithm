@@ -194,7 +194,7 @@ class Queue:
         self.queue.append(value)  # 向队尾添加元素
 ```
 
-还可以基于 链表 实现：
+还可以基于 链表 实现：（效果最好）
 
 ```python
 # 还可以基于链表实现
