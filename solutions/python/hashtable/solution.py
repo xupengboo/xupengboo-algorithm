@@ -1,5 +1,5 @@
 """基于链地址法："""
-class HashTable:
+class HashTable_Link:
 
     def __init__(self, size=10):
         self.size = size
@@ -28,38 +28,55 @@ class HashTable:
         return None  # 未找到
     
 """基于开放寻址法的线性探测法的方式："""
-class HashTable: 
-    
+class HashTable_Detect:
     def __init__(self, size=10):
         self.size = size
-        self.table = [[] for _ in range(size)]
-    
+        self.table = [None] * self.size  
+
     def _hash(self, key):
-        return hash(key) % self.size # 哈希函数
-    
-    # 线性探测法
-    def _open_addressing(self, key, value, index_idx, index):
-        # 匹配键是否正确
-        if "key" in index:
-            if index['key'] == key:
-                # 直接更新
-                index['value'] = value
-            else:
-                # 递归 + 1 
-                self._open_addressing(key, value, index_idx + 1, index)
-        else: 
-            index['key'] = key
-            index['value'] = value
-    
-    # put方法
+        return hash(key) % self.size
+
+    def _probe(self, start_idx):
+        """线性探测下一个可用位置"""
+        idx = start_idx
+        while True:
+            if self.table[idx] is None or self.table[idx] == "DELETED":
+                return idx
+            idx = (idx + 1) % self.size  # 回绕到数组开头
+            if idx == start_idx:  # 整个表已满
+                raise Exception("Hash table is full")
+
     def put(self, key, value):
-        index_idx = self._hash(key)
-        index = self.table[index_idx]
-        self._open_addressing(key, value, index_idx, index)
+        start_idx = self._hash(key)
+        idx = start_idx
 
+        # 查找可插入的位置或更新现有键
+        while True:
+            if self.table[idx] is None or self.table[idx] == "DELETED":
+                # 插入新键值对
+                self.table[idx] = (key, value)
+                return
+            elif self.table[idx][0] == key:
+                # 键已存在，更新值
+                self.table[idx] = (key, value)
+                return
+            idx = (idx + 1) % self.size # 通过取余方式能够遍历整个数组
+            if idx == start_idx:
+                raise Exception("Hash table is full")
 
+    def get(self, key):
+        start_idx = self._hash(key)
+        idx = start_idx
 
-        
+        while True:
+            entry = self.table[idx]
+            if entry is None:
+                return None  # 未找到
+            elif entry != "DELETED" and entry[0] == key:
+                return entry[1]  # 返回找到的值
+            idx = (idx + 1) % self.size
+            if idx == start_idx:
+                return None  # 遍历完整个表未找到
         
         
             
