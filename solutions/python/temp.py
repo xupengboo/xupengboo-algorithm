@@ -21,4 +21,7 @@ def merge(left, right):
     return result
 
 arr = [123,23,344,66,8,9,1,2,3,4,5,6]
+# 打印
 print(merge_sort(arr))
+
+
